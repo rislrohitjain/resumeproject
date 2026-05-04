@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config.title }}</title>
+	<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/profile.jpg') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #10b981; --secondary: #6366f1; --dark: #020617; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--dark); color: #f1f5f9; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -20px rgba(99, 102, 241, 0.3);
+        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .map-container { filter: grayscale(1) invert(0.9) contrast(1.2); border-radius: 24px; }
+        .profile-ring { background: linear-gradient(45deg, #10b981, #6366f1); padding: 3px; border-radius: 50%; }
+    </style>
+</head>
+<body class="selection:bg-indigo-500">
+
+    <nav class="fixed top-0 w-full z-[100] px-6 py-4 glass-card border-b border-white/5 backdrop-blur-xl">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <span class="text-2xl font-extrabold tracking-tighter">
+			
+				<a href="/" class="hover:text-emerald-400 transition">{{ config.name }}</a>
+			
+			</span>
+            <div class="hidden md:flex space-x-8 text-sm font-semibold uppercase tracking-widest">
+                <a href="#about" class="hover:text-emerald-400 transition">Summary</a>
+                <a href="#skills" class="hover:text-emerald-400 transition">Expertise</a>
+                <a href="#history" class="hover:text-emerald-400 transition">Experience</a>
+            </div>
+            <a href="#contact" class="px-6 py-2 bg-indigo-600 rounded-full text-sm font-bold hover:scale-105 transition">Hire Me</a>
+            <a href="{{ url_for('static', filename='resume.pdf') }}" download="My_Resume.pdf" class="px-6 py-2 bg-indigo-600 rounded-full text-sm font-bold hover:scale-105 transition">Download Resume</a>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-32 space-y-40">
+
+        <!-- Hero Section -->
+        <section id="about" class="reveal text-center space-y-8">
+            <div class="flex justify-center">
+                <div class="profile-ring w-32 h-32">
+                    <div class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center text-3xl font-bold">
+					
+					<img src="{{ url_for('static', filename='images/profile.jpg') }}" 
+                         alt="Rohit Jain" 
+                         class="w-full h-full object-cover rounded-full border-4 border-slate-900">
+						 </div>
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter">
+                Business <span class="bg-gradient-to-r from-emerald-400 to-indigo-500 bg-clip-text text-transparent">Analysis.</span>
+            </h1> 
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+                {{ config.summary }}[cite: 1]
+            </p>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills" class="reveal space-y-12">
+            <div class="flex items-center gap-4">
+                <h2 class="text-4xl font-extrabold">Skill <span class="text-indigo-500 text-opacity-60">Set</span></h2>
+                <div class="h-[1px] flex-grow bg-white/10"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {% for category, items in config.skills.items() %}
+                <div class="p-6 glass-card rounded-2xl">
+                    <h3 class="capitalize font-bold mb-4 text-indigo-400">{{ category }}</h3>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        {% for skill in items %}
+                        <li>• {{ skill }}[cite: 1]</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section id="history" class="reveal space-y-12">
+            <h2 class="text-4xl font-extrabold">Professional <span class="text-indigo-500 text-opacity-50">Path</span></h2>
+            <div class="space-y-6">
+                {% for job in config.experience %}
+                <div class="p-8 glass-card rounded-3xl flex flex-col md:flex-row justify-between items-start gap-4">
+                    <div class="md:w-1/3">
+                        <h3 class="text-xl font-bold">{{ job.role }}</h3>
+                        <p class="text-indigo-400 font-semibold text-sm">{{ job.company }}</p>
+                        <p class="text-slate-500 text-xs">{{ job.period }}</p>
+                    </div>
+                    <p class="text-slate-400 text-sm md:w-2/3">{{ job.desc }}[cite: 1]</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Contact & Location -->
+        <section id="contact" class="reveal grid md:grid-cols-2 gap-12">
+            <div class="space-y-8">
+                <h2 class="text-4xl font-extrabold leading-tight">Let's <span class="text-emerald-500">Connect</span></h2>
+                <p class="text-slate-400">Currently based in {{ config.location }}[cite: 1].</p>
+                <div class="flex gap-4">
+                    <a href="{{ config.socials.linkedin }}" class="px-8 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition">LinkedIn Profile</a>
+                </div>
+					
+                <div class="flex gap-4">
+                    <a href="{{ config.socials.mobile }}" class="px-8 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition">{{ config.socials.mobile }}</a>
+                </div>
+            </div>
+            <div class="h-[300px] map-container shadow-2xl overflow-hidden">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227748!2d75.65!3d26.88!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396c4adb4ad87f33%3A0xcd51f91d041207ef!2sJaipur!5e0!3m2!1sen!2sin!4v1" width="100%" height="100%" style="border:0;" loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <footer class="py-12 border-t border-white/5 text-center">
+            <div id="visitor-count" class="text-indigo-400 font-bold mb-4">0 Visitors</div>
+            <p class="text-slate-500 text-sm">© 2026 Developed for <span class="text-slate-300">{{ config.name }}</span> and Developed by <span class="text-slate-300">
+				<a href="https://rohitjain-resume.vercel.app/" target="_blank">{{ config.developername }} </a>
+			</span>
+			</p>
+        </footer>
+    </main>
+
+    <script>
+        const obs = new IntersectionObserver(ents => {
+            ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        function animateCounter(id, endValue, duration) {
+            const obj = document.getElementById(id);
+            let start = 0;
+            const step = (ts) => {
+                const progress = Math.min((ts - start) / duration, 1);
+                obj.innerText = Math.floor(progress * endValue) + " Visitors";
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame((ts) => { start = ts; step(ts); });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            animateCounter("visitor-count", {{ current_visitors }}, 2000);
+        });
+    </script>
+</body>
+</html>
