@@ -64,6 +64,12 @@ def resume():
         },
         "experience": [
             {
+                "role": "Business Analyst",
+                "company": "Data Ingenious Global Limited",
+                "period": "May 2026 to current",
+                "desc": "Gathered project requirements, team management and oversaw application releases, and collaborated with clients to ensure error-free delivery."
+            },
+            {
                 "role": "Analyst",
                 "company": "Deloitte",
                 "period": "Feb 2025 - Jan 2026",

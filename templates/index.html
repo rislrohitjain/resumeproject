@@ -30,21 +30,43 @@
 <body class="selection:bg-indigo-500">
 
     <nav class="fixed top-0 w-full z-[100] px-6 py-4 glass-card border-b border-white/5 backdrop-blur-xl">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <span class="text-2xl font-extrabold tracking-tighter">
-			
+		<div class="max-w-6xl mx-auto flex justify-between items-center">
+			<span class="text-2xl font-extrabold tracking-tighter">
 				<a href="/" class="hover:text-emerald-400 transition">{{ config.name }}</a>
-			
 			</span>
-            <div class="hidden md:flex space-x-8 text-sm font-semibold uppercase tracking-widest">
-                <a href="#about" class="hover:text-emerald-400 transition">Summary</a>
-                <a href="#skills" class="hover:text-emerald-400 transition">Expertise</a>
-                <a href="#history" class="hover:text-emerald-400 transition">Experience</a>
-            </div>
-            <a href="#contact" class="px-6 py-2 bg-indigo-600 rounded-full text-sm font-bold hover:scale-105 transition">Hire Me</a>
-            <a href="{{ url_for('static', filename='resume.pdf') }}" download="My_Resume.pdf" class="px-6 py-2 bg-indigo-600 rounded-full text-sm font-bold hover:scale-105 transition">Download Resume</a>
-        </div>
-    </nav>
+
+			<!-- Desktop Menu -->
+			<div class="hidden md:flex space-x-8 text-sm font-semibold uppercase tracking-widest">
+				<a href="#about" class="hover:text-emerald-400 transition">Summary</a>
+				<a href="#skills" class="hover:text-emerald-400 transition">Expertise</a>
+				<a href="#history" class="hover:text-emerald-400 transition">Experience</a>
+			</div>
+
+			<!-- Desktop Buttons -->
+			<div class="hidden md:flex items-center gap-4">
+				<a href="#contact" class="px-6 py-2 bg-indigo-600 rounded-full text-sm font-bold hover:scale-105 transition">Hire Me</a>
+				<a href="{{ url_for('static', filename='resume.pdf') }}" download class="px-6 py-2 border border-indigo-600 rounded-full text-sm font-bold hover:bg-indigo-600 transition">Resume</a>
+			</div>
+
+			<!-- Mobile Menu Button -->
+			<button id="menu-btn" class="md:hidden text-white focus:outline-none">
+				<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+				</svg>
+			</button>
+		</div>
+
+		<!-- Mobile Menu Drawer (Hidden by default) -->
+		<div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-slate-900/95 border-b border-white/10 p-6 space-y-4 flex flex-col items-center text-center backdrop-blur-lg">
+			<a href="#about" class="block text-lg font-semibold hover:text-emerald-400 py-2">Summary</a>
+			<a href="#skills" class="block text-lg font-semibold hover:text-emerald-400 py-2">Expertise</a>
+			<a href="#history" class="block text-lg font-semibold hover:text-emerald-400 py-2">Experience</a>
+			<div class="flex flex-col gap-4 w-full pt-4">
+				<a href="#contact" class="px-6 py-3 bg-indigo-600 rounded-xl font-bold">Hire Me</a>
+				<a href="{{ url_for('static', filename='resume.pdf') }}" download class="px-6 py-3 border border-indigo-600 rounded-xl font-bold">Download Resume</a>
+			</div>
+		</div>
+	</nav>
 
     <main class="max-w-5xl mx-auto px-6 py-32 space-y-40">
 
@@ -222,6 +244,21 @@
 			window.requestAnimationFrame(step);
 		}
 
+		document.addEventListener('DOMContentLoaded', () => {
+			const menuBtn = document.getElementById('menu-btn');
+			const mobileMenu = document.getElementById('mobile-menu');
+
+			menuBtn.addEventListener('click', () => {
+				mobileMenu.classList.toggle('hidden');
+			});
+
+			// Close menu when a link is clicked
+			document.querySelectorAll('#mobile-menu a').forEach(link => {
+				link.addEventListener('click', () => {
+					mobileMenu.classList.add('hidden');
+				});
+			});
+		});
 		
 	</script>
 	
