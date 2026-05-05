@@ -96,8 +96,9 @@ def resume():
         ],
         "education": "B.Tech in IT - Kautilya Institute of Tech. & Engg.",
         "socials": {
-            "linkedin": "https://www.linkedin.com/in/anshulmathur-40186167",
+            "linkedin": "https://www.linkedin.com/in/anshul-mathur-40186167",
             "github": "#",
+            "naukri": "#",
             "mobile": "+91 94606 00426",
             "portfolio": "#"
         }
