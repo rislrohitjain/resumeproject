@@ -17,6 +17,7 @@ def resume():
         "name": "Anshul Mathur",
         "title": "Anshul Mathur | Business Analyst | Project Implementation",
         "email": "anshul.mathur@example.com",
+        "profile_position": "Business Analyst",
         "location": "Jaipur, Rajasthan, India",
         "summary": (
             "Experienced Business Analyst with a demonstrated history of "
@@ -24,6 +25,23 @@ def resume():
             "in Microsoft Word, Android, Management, and Customer Service."
         ),
         "developername": "Rohit Jain",
+        "ai_capabilities": [
+            {
+                "title": "Strategic Bridging",
+                "subtitle": "Now days Learning",
+                "description": "Bridging technical AI capabilities and business goals to uncover new revenue streams and solve operational inefficiencies."
+            },
+            {
+                "title": "Augmented Insights",
+                "subtitle": "The AI-Driven Analyst",
+                "description": "Automating data wrangling to shift from 'what happened' to predicting 'what will happen' via advanced pattern recognition."
+            },
+            {
+                "title": "Agentic Orchestration",
+                "subtitle": "The AI-Driven Analyst",
+                "description": "Designing and governing AI agent workflows to ensure automated outputs remain ethical, accurate, and aligned."
+            }
+        ],
         "skills": {
             "core": [
                 "Client Interfacing",

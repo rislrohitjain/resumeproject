@@ -61,11 +61,14 @@
                 </div>
             </div>
             <h1 class="text-5xl md:text-8xl font-black tracking-tighter">
-                Business <span class="bg-gradient-to-r from-emerald-400 to-indigo-500 bg-clip-text text-transparent">Analysis.</span>
+				Role, <span class="bg-gradient-to-r from-emerald-400 to-indigo-500 bg-clip-text text-transparent">{{ config.profile_position }}</span>
             </h1> 
             <p class="text-slate-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
                 {{ config.summary }}[cite: 1]
+			<span><div id="visitor-count" class="visitor-count text-indigo-400 font-bold mb-4" style="font-size:20px;"> 0 Visitors</div> Exploring this profile</span>
             </p>
+			
+			
         </section>
 
         <!-- Skills -->
@@ -124,33 +127,130 @@
         </section>
 
         <footer class="py-12 border-t border-white/5 text-center">
-            <div id="visitor-count" class="text-indigo-400 font-bold mb-4">0 Visitors</div>
+            <div id="visitor-count" class="visitor-count text-indigo-400 font-bold mb-4">0 Visitors</div>
             <p class="text-slate-500 text-sm">© 2026 Developed for <span class="text-slate-300">{{ config.name }}</span> and Developed by <span class="text-slate-300">
 				<a href="https://rohitjain-resume.vercel.app/" target="_blank">{{ config.developername }} </a>
 			</span>
 			</p>
+			
+			<!-- AI Focus Popup (Centered & Attractive) -->
+			<div id="ai-popup" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] w-[95%] max-w-lg opacity-0 translate-y-10 pointer-events-none transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)">
+				<div class="glass-card p-1 rounded-3xl shadow-[0_0_60px_-15px_rgba(16,185,129,0.4)]">
+					<div class="bg-slate-900/80 backdrop-blur-2xl rounded-[22px] p-5 border border-white/10">
+						
+						<!-- Header Section -->
+						<div class="flex items-center justify-between mb-5 pb-4 border-b border-white/5">
+							<div class="flex items-center gap-4">
+								<div class="relative flex-shrink-0">
+									<div class="absolute inset-0 bg-emerald-400 blur-xl opacity-30 animate-pulse"></div>
+									<div class="relative p-2.5 bg-gradient-to-br from-emerald-500/30 to-teal-500/30 rounded-xl text-emerald-300 border border-emerald-400/40">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+										</svg>
+									</div>
+								</div>
+								<div>
+									<h4 class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em] mb-0.5">Now days Learning</h4>
+									<p class="text-[14px] text-white font-bold italic">The AI-Driven {{ config.socials.mobile }}</p> 
+								</div>
+							</div>
+							<button onclick="closeAiPopup()" class="p-2 hover:bg-white/10 rounded-xl transition text-slate-400 hover:text-emerald-300">
+								<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+								</svg>
+							</button>
+						</div>
+
+						<!-- Content Grid/List -->
+						<div class="space-y-4">
+						
+							{% for capability in config.ai_capabilities %}
+								<div class="group">
+									<h5 class="text-xs font-bold text-emerald-300 flex items-center gap-2 mb-1">
+										<span class="w-1 h-1 bg-emerald-400 rounded-full"></span>
+										{{ capability.title }}
+									</h5>
+									<p class="text-[12px] text-slate-300 leading-relaxed pl-3 border-l border-emerald-500/20">
+										{{ capability.description }}
+									</p>
+								</div>
+							{% endfor %}
+						</div>
+
+						<!-- Footer Tag -->
+						<div class="mt-5 pt-3 border-t border-white/5 flex justify-center">
+							<span class="text-[10px] text-slate-500 font-medium">By Me {{ config.socials.mobile }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
         </footer>
     </main>
 
     <script>
-        const obs = new IntersectionObserver(ents => {
-            ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+		// Intersection Observer for scroll animations
+		const obs = new IntersectionObserver(ents => {
+			ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+		}, { threshold: 0.1 });
+		document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-        function animateCounter(id, endValue, duration) {
-            const obj = document.getElementById(id);
-            let start = 0;
-            const step = (ts) => {
-                const progress = Math.min((ts - start) / duration, 1);
-                obj.innerText = Math.floor(progress * endValue) + " Visitors";
-                if (progress < 1) window.requestAnimationFrame(step);
-            };
-            window.requestAnimationFrame((ts) => { start = ts; step(ts); });
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            animateCounter("visitor-count", {{ current_visitors }}, 2000);
-        });
-    </script>
+		/**
+		 * Updated animateCounter to handle classes
+		 * Uses querySelectorAll to update all counter instances on the page
+		 */
+		function animateCounter(className, endValue, duration) {
+			const elements = document.querySelectorAll(className);
+			if (elements.length === 0) return;
+
+			let startTime = null;
+
+			const step = (currentTime) => {
+				if (!startTime) startTime = currentTime;
+				const progress = Math.min((currentTime - startTime) / duration, 1);
+				const currentCount = Math.floor(progress * endValue);
+				
+				elements.forEach(el => {
+					el.innerText = currentCount + " Visitors";
+				});
+
+				if (progress < 1) {
+					window.requestAnimationFrame(step);
+				}
+			};
+			
+			window.requestAnimationFrame(step);
+		}
+
+		
+	</script>
+	
+	<script>
+		// Existing logic...
+		
+		function closeAiPopup() {
+			const popup = document.getElementById('ai-popup');
+			popup.classList.add('opacity-0', 'translate-y-10');
+			popup.classList.remove('opacity-100', 'translate-y-0');
+			setTimeout(() => popup.style.display = 'none', 700);
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			// Run your visitor counter...
+			animateCounter(".visitor-count", {{ current_visitors }}, 2000);
+
+			// Enhanced Popup Trigger
+			setTimeout(() => {
+				const popup = document.getElementById('ai-popup');
+				if (popup) {
+					// Remove opacity-0 and the vertical offset
+					popup.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+					// Add full opacity and reset Y position (X remains centered via CSS)
+					popup.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+				}
+			}, 5000); 
+		});
+	</script>
+
 </body>
 </html>
