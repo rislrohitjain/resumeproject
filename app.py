@@ -99,7 +99,7 @@ def resume():
             "linkedin": "https://www.linkedin.com/in/anshul-mathur-40186167",
             "github": "#",
             "naukri": "#",
-            "mobile": "+91 94606 00426",
+            "mobile": "+91 89492 51554",
             "portfolio": "#"
         }
     }
